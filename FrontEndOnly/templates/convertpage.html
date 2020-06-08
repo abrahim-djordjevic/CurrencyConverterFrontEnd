@@ -1,0 +1,126 @@
+<!Doctype html>
+<html>
+	<head>
+		<title>
+			Currency
+		</title>
+		<link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename = 'mystyle.css') }}">
+		<script language = "JavaScript">
+			//function to ensure only one button is checked at a time
+			var queue = [];
+			function check(id){
+				queue.push(id);
+				if(queue.length >= 2){
+					queue[0].checked = false;
+					queue.shift();
+				}
+			}
+			//function to convert currency
+			function convert(form){
+				var convertRate = [1.82, 1.12, 1.27, 0.55, 0.62, 0.698, 1.63, 0.89, 1.13, 1.43, 0.882, 0.787]
+				var value = form.input.value;
+				switch(queue[0]){
+					case form.AUD:
+						value = value*convertRate[0];
+						break;
+					case form.EUR:
+						value = value*convertRate[1];
+						break;
+					case form.USD:
+						value = value*convertRate[2];
+						break;
+					case form.AUDtoGBP:
+						value = value*convertRate[3];
+						break;
+					case form.AUDtoEUR:
+						value = value*convertRate[4];
+						break;
+					case form.AUDtoUSD:
+						value = value*convertRate[5];
+						break;
+					case form.EURtoAUD:
+						value = value*convertRate[6];
+						break;
+					case form.EURtoGBP:
+						value = value*convertRate[7];
+						break;
+					case form.EURtoUSD:
+						value = value*convertRate[8];
+						break;
+					case form.USDtoAUD:
+						value = value*convertRate[9];
+						break;
+					case form.USDtoEUR:
+						value = value*convertRate[10];
+						break;
+					case form.USDtoGBP:
+						value = value*convertRate[11];
+						break;
+					}
+				//make sure value is round to 2 decimal places
+				form.output.value = value.toFixed(2);
+			}
+		</script>
+	</head>
+	<body>
+		<div id = "header">
+			<b>Currency Converter</b><br>
+		</div>
+		<div id = "main">
+		<form id = "currencyForm" action = "{{ url_for('convert')  }}" method = "post">
+			<p id = "title">Input Value:</p>
+			<input type = "number" name = "input"></input><br>
+			<table>
+				<tr>
+					<td>
+						<input type = "button" name = "AUD" onClick = "check(this)" value = "GBP to AUD"></input>
+					</td>
+					<td>
+						<input type = "button" name = "EUR" onClick = "check(this)" value = "GBP to EUR"></input>
+					</td>
+					<td>
+						<input type = "button" name = "USD" onClick = "check(this)" value = "GBP to USD"></input>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type = "button" name = "AUDtoGBP" onClick = "check(this)" value = "AUD to GBP"></input>
+					</td>
+					<td>
+						<input type = "button" name = "AUDtoEUR" onClick = "check(this)" value = "AUD to EUR"></input>
+					</td>
+					<td>
+						<input type = "button" name = "AUDtoUSD" onClick = "check(this)" value = "AUD to USD"></input>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type = "button" name = "EURtoAUD" onClick = "check(this)" value = "EUR to AUD"></input>
+					</td>
+					<td>
+						<input type = "button" name = "EURtoGBP" onClick = "check(this)" value = "EUR to GBP"></input>
+					</td>
+					<td>
+						<input type = "button" name = "EURtoUSD" onClick = "check(this)" value = "EUR to USD"></input>
+					</td>
+					<td>
+				</tr>
+				<tr>
+					<td>
+						<input type = "button" name = "USDtoAUD" onClick = "check(this)" value = "USD to AUD"></input>
+					</td>
+					<td>
+						<input type = "button" name = "USDtoEUR" onClick = "check(this)" value = "USD to EUR"></input>
+					</td>
+					<td>
+						<input type = "button" name = "USDtoGBP" onClick = "check(this)" value = "USD to GBP"></input>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<input id = "submit" type =  "button" Value = "Submit" onClick = "convert"><br><br>
+			<textarea name = "output"></textarea>
+		</form>
+		</div>
+	</body>
+</html>
